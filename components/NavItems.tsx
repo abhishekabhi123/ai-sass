@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { SignedIn } from "@clerk/nextjs";
 
 const navItems = [
   {
@@ -33,6 +34,16 @@ const NavItems = () => {
           {item.label}
         </Link>
       ))}
+      <SignedIn>
+        <Link
+          href="/dashboard"
+          className={cn(
+            pathname === "/dashboard" && "text-primary font-semibold"
+          )}
+        >
+          Dashboard
+        </Link>
+      </SignedIn>
     </nav>
   );
 };
