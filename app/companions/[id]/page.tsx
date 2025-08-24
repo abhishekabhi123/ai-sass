@@ -14,6 +14,7 @@ const CompanionSession = async ({ params }: CompanionSessionPageProps) => {
   const { id } = await params;
   const companion = await getCompanion(id);
   const user = await currentUser();
+  const { name, topic, subject, title, duration } = companion;
 
   if (!user) redirect("/sign-in");
   if (!companion) redirect("/companions");
@@ -34,19 +35,22 @@ const CompanionSession = async ({ params }: CompanionSessionPageProps) => {
           </div>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 ">
-              <p className="font-bold text-2xl ">{companion.name}</p>
-              <div className="subject-badge max-sm:hidden">
-                {companion.subject}
-              </div>
+              <p className="font-bold text-2xl ">{name}</p>
+              <div className="subject-badge max-sm:hidden">{subject}</div>
             </div>
-            <p className="text-lg">{companion.topic}</p>
+            <p className="text-lg">{topic}</p>
           </div>
         </div>
         <div className="items-start text-2xl max-md:hidden">
-          {companion.duration} minutes
+          {duration} minutes
         </div>
       </article>
-      <CompanionComponent />
+      <CompanionComponent
+        {...companion}
+        companionId={id}
+        username={user.firstName!}
+        userImage={user.imageUrl!}
+      />
     </main>
   );
 };
